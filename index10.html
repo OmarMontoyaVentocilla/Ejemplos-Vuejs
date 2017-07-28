@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>vue ajax aixos</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+<div id="main" class="container">
+
+    <div class="row">
+      <div class="col-sm-4">
+          <h1>vue -Filtros</h1>
+          <button type="button" class="btn btn-primary" v-on:click="getUser" v-if="!lista.length">Listar</button>
+          <ul class="list-group" v-else>
+            <li class="list-group-item"> 
+              <input type="text" placeholder="Buscar" class="form-control" v-model="name">
+            </li>
+            <li class="list-group-item" v-for="item in buscarUser">{{ item.name }}</li>
+          </ul>
+      </div>      
+      <div class="col-sm-8">
+        <h1>Json</h1>
+        <pre>{{$data}}</pre>
+      </div>
+    </div>
+</div>
+<script src="https://unpkg.com/vue@2.4.2"></script>	
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script type="text/javascript">
+  // let AllUser2='https://jsonplaceholder.typicode.com/users';
+  new Vue({
+   el:'#main',
+   data: {
+   	lista:[],
+    name:'',
+   },
+   methods:{
+   	getUser:function(){
+       let Alluser='https://jsonplaceholder.typicode.com/users'; 
+   		axios.get(Alluser)
+   		.then(response => {
+            this.lista=response.data;
+   		})
+   		.catch(error=>{
+   			console.log(error);
+   		});
+   	}
+   },
+   computed: {
+     buscarUser:function(){
+      return this.lista.filter((item)=> item.name.includes(this.name));
+     }
+   }
+  });	
+</script>	
+</body>
+</html>

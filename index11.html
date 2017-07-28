@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>inicio</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+<div id="main" class="container well">
+<p  v-for="item in nombres">{{ item }} {{ getNombre(item) }} </p>
+<p>{{getNombre(nombres)}}</p>
+<p>{{getHola()}}</p>
+
+<input type="text"  v-model="info1">
+<input type="text"  v-model="info2">
+<input type="text"  v-model="info3">
+<input type="text"  v-model="info4">
+<input type="text"  v-model="info5">
+<p>Y los inputs son: {{info1}} {{info2}} {{info3}} {{info4}} {{info5}}</p>
+<p>{{getSumarInputs()}}</p>	
+<a v-bind:href="url">Ir</a>
+<p v-html="tag"></p>
+
+<button type="button" class="btn btn-primary" v-on:click="año++">Añadir año</button>
+<button type="button" class="btn btn-primary" v-on:click="año--">Restar año</button>
+<button type="button" class="btn btn-primary" @dblclick="add(12)">Añadir año x2</button>
+<button type="button" class="btn btn-primary" @dblclick="substract(2)">Restar año x2</button>
+<p>{{año}}</p>
+</div>
+
+
+
+
+
+
+<!-- Ejm2 -->
+
+<div id="app" class="container well">
+	<h1>{{titulo}}</h1>
+
+<div :class="descripcionErrorClase">
+<label class="control-label" >Numero 1</label>
+<input type="text" v-model="txtNumber1"  v-on:keyup.enter="cambio" class="form-control">
+<p class="help-block" v-if="descripcionError!=''">{{ descripcionError  }}</p>
+</div>
+
+
+
+<div :class="descripcionErrorClase">
+<label for="" :style="[{color:'yellow'},estilo]">Numero 2</label>
+<input type="text" v-model="txtNumber2" class="form-control">
+<p class="help-block" v-if="descripcionError!=''">{{ descripcionError  }}</p>
+</div>
+<br>
+<div class="row well">
+<hello-world></hello-world>	
+</div>
+	
+</div>
+
+<!-- ejemplo3 -->
+<div id="app2" class="container well">
+<p>{{titulo}}</p>	
+
+<button v-on:click="error =!error" class="btn btn-danger">Mal</button>
+<button v-on:click="success =!success" class="btn btn-success">Bien</button>
+<p v-if="error">Hubo un error</p>
+<p v-if="success">Esta bien</p>
+<hr>
+<button @click="disabled = !disabled" class="btn btn-primary">
+<template v-if="disabled==false">
+{{ nombre }}
+</template>
+<template v-else>
+Habilitar
+</template>
+</button>
+<hr>
+<input type="text" class="form-control" :disabled="disabled">
+</div>
+
+
+
+	 
+
+
+
+<script src="https://unpkg.com/vue@2.4.2"></script>
+<script>
+	new Vue({
+    el:'#main',
+    data: {
+      nombres: ['1111','222','33','54','111'],
+      info1:'',
+      info2:'',
+      info3:'',
+      info4:'',
+      info5:'',	
+      url:'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
+      tag: '<a href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">Bootstrap cs</a>',
+      año:'24'
+    },
+    methods:{
+      getNombre:function(valores){
+      	return "Valores: "+ valores.length ;
+      },
+      getHola:function(){
+      	let suma=0;
+      	for(var i=0;i<this.nombres.length;i++){
+            suma+=parseInt(this.nombres[i]);
+      	 }
+      	  return "ME QUIERE "+suma + " VECES";
+      },
+      getSumarInputs:function(){
+      	  let v_n1=parseInt(this.info1);
+      	  let v_n2=parseInt(this.info2);
+      	  let v_n3=parseInt(this.info3);
+      	  let v_n4=parseInt(this.info4);
+      	  let v_n5=parseInt(this.info5);
+
+         let v_suma=v_n1+v_n2+v_n3+v_n4+v_n5;
+             if(isNaN(v_suma)){
+             v_suma=0;	
+             }else{
+             v_suma=v_suma;	
+             }
+          return "La suma es: " + v_suma;  
+      },
+      add:function(i){
+      	this.año+=i;
+      },
+      substract:function(i){
+       this.año-=i;
+      }	
+    }
+	});
+
+
+// usando componente global
+Vue.component('hello-world', {
+    template: '<h2>Hello world!</h2>'
+});	
+
+
+	new Vue({
+      el:'#app',
+      data: {
+       'titulo':'Eventos',
+       'txtNumber1':'',
+       'txtNumber2':''
+      },
+       methods:{
+        cambio:function(){
+        	return this.txtNumber2=this.txtNumber1;
+        }
+      },
+      computed:{
+        descripcionError:function(){
+        	let valor=this.txtNumber1.trim();
+        	let valor2=this.txtNumber2.trim();
+        	if(valor=='' && valor2=='' ){
+               return "El campo es obligatorio";
+        	}else if(valor.length<4 && valor2.length<4){
+               return "El campo es muy corto ";
+        	}else if(valor.length>15 && valor.length>15){
+               return "El campo es muy largo ";
+        	}else{
+        		return '';
+        	}
+        },
+        descripcionErrorClase:function(){
+        	return [
+        	'form-group',
+        	{'has-error':this.descripcionError}
+        	];
+        },
+
+        estilo:function(){
+        	 if(this.descripcionError){
+                return {color:'blue'};
+        	 }
+        }
+
+      }
+	});
+
+
+    new Vue({
+    el:'#app2',
+    data:{
+      'titulo':'Condicionales',
+       'nombre':'Dehabilitar',
+       error:false,
+       success:false,
+       disabled:false	
+    }
+    });
+
+
+</script>
+</body>
+</html>

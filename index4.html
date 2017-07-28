@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>vue ajax aixos</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+<div id="main">
+<div class="container">
+    <div class="row">
+      <div class="col-xs-6">
+         <div class="list" v-for="item in lists">
+          <div class="row">
+             <div class="col-sm-2">
+                <figure class="">
+                  <img class="img-circle" v-bind:src="item.picture.medium" />
+                </figure>
+            </div>
+            <div class="col-sm-10">
+                <h4>
+                {{item.name.title}} {{item.name.first}} {{item.name.last}}
+                </h4>
+                <p>{{item.email}}</p>
+                <p>{{item.phone}}</p>
+            </div>
+         </div>
+        </div>s    
+      </div>
+      <div class="col-xs-6">
+        <h1>Json</h1>
+        <pre>{{$data | Json}}</pre>
+      </div>
+    </div>
+  
+  </div>  
+</div>
+<script src="https://unpkg.com/vue@2.3.4"></script>	
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script type="text/javascript">
+   let Alluser='https://randomuser.me/api/?results=10';
+  // let AllUser2='https://jsonplaceholder.typicode.com/users';
+  new Vue({
+   el:'#main',
+   created:function(){
+   	  this.getUser();
+   },
+   data: {
+   	lists:[]
+   },
+   methods:{
+   	getUser:function(){
+   		axios.get(Alluser)
+   		.then(response => {
+            this.lists=response.data.results;
+   		})
+   		.catch(error=>{
+   			console.log(error);
+   		});
+   	}
+   }
+  });	
+</script>	
+</body>
+</html>

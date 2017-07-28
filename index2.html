@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>v-bind</title>
+	<link rel="stylesheet" href="">
+</head>
+<body>
+<div id="main">
+	<input type="text" v-model="info">
+	<p v-bind:title="info">Este texto es de relleno... {{info}}</p>
+</div>
+<script src="https://unpkg.com/vue@2.3.4"></script>	
+<script type="text/javascript">
+	
+  new Vue({
+   el:'#main',
+   data: {
+   	info:''
+   }
+  });	
+</script>
+</body>
+</html>

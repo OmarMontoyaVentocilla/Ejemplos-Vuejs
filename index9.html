@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>vue 2 eventos </title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+<div id="main">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<h3>Eventos con vue js</h3>
+			</div>
+			<div class="col-md-4">
+			<form v-on:submit.prevent="addName">
+				 <div class="input-group">
+				 	<input type="text" class="form-control" v-model="name" >
+				 	<span class="input-group-btn">
+				 		<input type="submit" class="btn btn-info" value="Agregar" >
+				 	</span>
+				 </div>
+			</form>	 
+				 <hr>
+				 <ul class="list-group">
+				 	<li class="list-group-item" v-for="item in people" v-text="item">
+				 		{{ item}}
+				 	</li>
+				 </ul>			
+			</div>
+			<div class="col-xs-4">
+			   <button type="button" class="btn btn-primary" v-on:click="num++">
+				{{ num }} <i class="glyphicon glyphicon-thumbs-up"></i>
+				</button>	
+			</div>	
+		</div>
+	</div>
+</div>
+<script src="https://unpkg.com/vue@2.3.4"></script>	
+<script type="text/javascript">
+	new Vue({
+     el:'#main',
+     data: {
+     	people: ['Omar','Lili','Ros'],
+     	name:'',
+     	num:0,
+     },
+     methods:{
+        addName: function(){
+        	if(this.name.trim()!=''){
+             this.people.push(this.name);
+             this.name='';		
+        	}else{
+        		alert("Agrega un valor al campo");
+        	}    
+       }	
+     }
+	}) ;
+</script>
+</body>
+</html>
